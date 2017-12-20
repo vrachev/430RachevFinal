@@ -200,7 +200,7 @@
         (display (format "Test Passed! Values before and after compilation are: (~a and ~a)\n" val llvm-val))
         #t)
       (begin
-        (display (format "Test-full-compiler: two different values (~a and ~a) before and after compilation.\n"
+        (display (format "Test-full-compiler: two different values (~a and ~a) before and after compilation.\n\n"
                          val llvm-val))
         #f)))
 

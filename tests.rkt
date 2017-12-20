@@ -26,7 +26,7 @@
             (define llvm-e (proc->llvm (closure-convert (cps-convert (anf-convert (alphatize (assignment-convert (simplify-ir (desugar (cte (top-level top-level-e)))))))))))
 
             (define llvm-val (eval-llvm llvm-e))
-            (display (format "\nTEST RUNNING:\nTHE LLVM VALUE FOR THIS TEST IS: ~a\n" llvm-val))
+            (display (format "TEST RUNNING:\nTHE LLVM VALUE FOR THIS TEST IS: ~a\n" llvm-val))
 
             (test-full-compiler top-level-e llvm-val)            
             )]
