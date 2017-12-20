@@ -1,0 +1,5 @@
+(letrec ([k (lambda (x func)
+              (apply func x))])
+  (let ([f +])
+    (letrec ([x '(15 19)])
+             (k x f))))
