@@ -1,6 +1,12 @@
 # CMSC430 Final Project
 
-### Part 1
+Academic integrity pledge:
+
+I pledge on my honor that I have not given or received any unauthorized assistance on this examination (or assignment).
+
+Vlad Rachev
+
+## Part 1
 
 To show every test: `racket tests.rkt`
 
@@ -51,6 +57,7 @@ These are the relevant lines of the method that calls the testing method, found 
 Before the result of the test is shown, the result of the llvm-value is displayed. This will be important for part 2, where tests will fail, but the llvm-val will be a printed error message. 
 
 
+Here are the prims I have tested for:
 
 
 
