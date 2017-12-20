@@ -2,6 +2,10 @@
 
 ### Part 1
 
-To run every test:
+To show every test: `racket tests.rkt`
 
-```racket tests.rkt all```
+To run every test: `racket tests.rkt all`
+
+To run specific test: `racket tests.rkt >TESTNAME<`
+
+
