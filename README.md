@@ -169,20 +169,33 @@ Here are the 5 errors for which I have implemented exception-handling.
 The implementations are done in a seperate pass called cte, which is run in between desugar and top-level 
 (i.e. `... (desugar (cte (top-level ...`
 
+Implementation is found in `compile-time-errors.rkt`
+
 All 5 errors are implemented with guards. The value is raised, and if it is an error, the error is printed, 
-otherwise behaves as if input as normal. 
+otherwise behaves as if input as normal. 4 of the errors were taken from the examples provided, and I hope the fifth (dynamic-wind args) is distinct enough to also count!
 
 1. Divide by zero. 
+   The error message printed when such an error exists: "non function applied"
 
 2. User defined lambdas with too many args
+   The error message printed when such an error exists: "too many args were provided for a user defined lambda"
 
 3. User defined lambdas with too few args
+   The error message printed when such an error exists: "too few args were provided for a user defined lambda"
 
-4. Non function applied (i.e. (apply '5 '(1 2 3)) will return an error)
 
-5. Dynamic-wind handed non-procedures (i.e. (dynamic-wind '5 (lambda () '6) (lambda () '7)) will return an error because '5 is not a procedure
+4. Non function applied (i.e. `(apply '5 '(1 2 3))` will return an error)
+   The error message printed when such an error exists: "division by 0 error"
+
+
+5. Dynamic-wind handed non-procedures (i.e. `(dynamic-wind '5 (lambda () '6) (lambda () '7))`) will return an error because '5 is not a procedure, while `(dynamic-wind (lambda () '5) (lambda () '6) (lambda () '7))` will return 6.
+   The error message printed when such an error exists: "dynamic-wind supplied with non-procedure"
+
 
 I do not support the other runtime errors shown in the example, such as un-bound letrec/letrec* variables and memory-cap.
+
+Thanks for the semester! This is one of the most educational classes I've ever taken, (though also one of the most difficult). I hope this project works on your machine, and that I have implemented parts 1 and 2 sufficiently. Unfortunately I did not have time to do parts 3 and 4, but assuming I have completed parts 1 and 2 correctly (which I think and hope I have), it will be enough for me to pass. 
+
 
 
 
