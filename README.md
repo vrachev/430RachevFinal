@@ -32,6 +32,7 @@ Here is the list of tests in /tests/ (most if not all were taken from previous p
 10. promise-3.scm
 11. promise-4.scm
 
+NOTE: when running `racket tests.rkt all`, only 63.33% of the tests will pass. This is because it is testing these 11 (which pass) + tests for part 2. I will explain the testing process for the runtime errors of part 2 in the later section. 
 
 All tests in /tests/ pass on my local machine (mac osx), and should pass when run by instructors. Output of all tests in /tests/ is found in EXAMPLES.md. 
 
@@ -120,6 +121,68 @@ eqv? :: v -> v -> Boolean
 
 procedure? :: v -> Boolean 
 
+
+## Part 2
+
+Before talking about what I implemented, I'll explaing the testing process. Because I don't have time to implement a proper tests that accept failure, all of the runtime error tests will fail. These tests are found in /tests-runtime-errors/, in the 5 subfolders (each named for the error they test). Because tests.rkt compares `(eval-top-level e)` and `(eval-llvm e)`, the tests with runtime errors fail for the `(eval-top-level e)` evaluation. However, they successfuly return an error message in `(eval-llvm e)`. Because of this, tests.rkt will print the result of `(eval-llvm e)` before the test is complete, which will display the correct error message. Additionally, all tests that fail due to a runtime error have `SHOULDFAIL` as part of their path. I have also included control tests, which are identical to the failing ones, except with slightly modified code that is valid and returns a concrete value. These have `control` in their path and will pass. 
+
+A sample of a failing test (but that succesfully returns an `(eval-llvm e)` result:
+```
+Running llvm (scm) test #<path:tests-runtime-errors/too-many-args/SHOULDFAIL-too-many-args-0.scm>
+TEST RUNNING:
+THE LLVM VALUE FOR THIS TEST IS: too many args were provided for a user defined lambda
+"Evaluation failed:"
+(exn:fail:contract:arity
+ "f: arity mismatch;\n the expected number of arguments does not match the given number\n  expected: 3\n  given: 4\n  arguments...:\n   10\n   48\n   11\n   22"
+ #<continuation-mark-set>)
+'(begin
+   (define z '10)
+   (define b '11)
+   (define x '12)
+   (letrec ((k
+             (letrec ((f (lambda (n j k) (cons (cons n j) k))))
+               (f
+                ((lambda (m) m) z)
+                (letrec* ((arg ((lambda (x) (+ x x)) x))) (+ arg arg))
+                b
+                (+ b b)))))
+     k))
+Test to-llvm-SHOULDFAIL-too-many-args-0 failed!
+```
+
+Note the `THE LLVM VALUE FOR THIS TEST IS: too many args were provided for a user defined lambda`
+
+The value of the `:` is the error message printed by the binary produced by the test.
+
+A sample of the control test:
+
+```
+Running llvm (scm) test #<path:tests-runtime-errors/too-many-args/too-many-args-1-control.scm>
+TEST RUNNING:
+THE LLVM VALUE FOR THIS TEST IS: (hello . world)
+Test Passed! Values before and after compilation are: ((hello . world) and (hello . world))
+```
+
+I have included the output of all tests in EXAMPLES.md
+
+Here are the 5 errors for which I have implemented exception-handling.
+The implementations are done in a seperate pass called cte, which is run in between desugar and top-level 
+(i.e. `... (desugar (cte (top-level ...`
+
+All 5 errors are implemented with guards. The value is raised, and if it is an error, the error is printed, 
+otherwise behaves as if input as normal. 
+
+1. Divide by zero. 
+
+2. User defined lambdas with too many args
+
+3. User defined lambdas with too few args
+
+4. Non function applied (i.e. (apply '5 '(1 2 3)) will return an error)
+
+5. Dynamic-wind handed non-procedures (i.e. (dynamic-wind '5 (lambda () '6) (lambda () '7)) will return an error because '5 is not a procedure
+
+I do not support the other runtime errors shown in the example, such as un-bound letrec/letrec* variables and memory-cap.
 
 
 
