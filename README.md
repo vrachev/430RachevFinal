@@ -1,5 +1,7 @@
 # CMSC430 Final Project
 
+This project combines the reference solutions to projects 2-5 to create a functional compiler that takes input scheme code and outputs an executable. 
+
 Academic integrity pledge:
 
 I pledge on my honor that I have not given or received any unauthorized assistance on this examination (or assignment).
@@ -15,6 +17,21 @@ To run every test: `racket tests.rkt all`
 To run specific test: `racket tests.rkt >TESTNAME<`
 
 All tests with correct input are located inside /tests/. Most tests are inside /tests/public, however, there is a single test in both release and secret because github was not letting me add empty folders. (Alternatively I could have slightly changed the directory structure but I'm running out of time).
+
+Here is the list of tests in /tests/ (most if not all were taken from previous projects):
+
+1. amb.scm
+2. exceptions-continuations.scm
+3. fib-cont.scm
+4. guard-continuations.scm
+5. nqueens.scm
+6. case-0.scm
+7. cond-0.scm
+8. guard-3.scm
+9. apply-1.scm
+10. promise-3.scm
+11. promise-4.scm
+
 
 All tests in /tests/ pass on my local machine (mac osx), and should pass when run by instructors. Output of all tests in /tests/ is found in EXAMPLES.md. 
 
@@ -57,7 +74,56 @@ These are the relevant lines of the method that calls the testing method, found 
 Before the result of the test is shown, the result of the llvm-value is displayed. This will be important for part 2, where tests will fail, but the llvm-val will be a printed error message. 
 
 
-Here are the prims I have tested for:
+Here are the prims I have tested for (I will use haskell like type declarations)
+
+It may not be an exhaustive list:
+
+null? :: v -> Boolean
+
+\= :: v -> v -> Boolean
+
+\< :: v -> v -> Boolean
+
+\<= :: v -> v -> Boolean
+
+\> :: v -> v -> Boolean
+
+\>= :: v -> v -> Boolean
+
+\+ :: number? -> number? -> number?
+
+\- :: number? -> number? -> number?
+
+\/ :: number? -> number? -> number?
+
+\* :: number? -> number? -> number?
+
+cons :: v -> v -> (v . v)
+
+car :: (v . v) -> v (first one)
+
+cdr :: (v . v) -> v (last one)
+
+number? :: v -> Boolean
+
+list :: (v ...) -> (list v)
+
+map :: (v->w) -> [v] -> [w]
+
+foldl :: (v -> w -> v) -> w -> t v -> w
+
+append :: (list v) -> (list v) > (list v)
+
+not :: Boolean -> Boolean
+
+eqv? :: v -> v -> Boolean
+
+procedure? :: v -> Boolean 
+
+
+
+
+
 
 
 
